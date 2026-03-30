@@ -1,3 +1,7 @@
+# link do zadania https://exercism.org/tracks/python/exercises/triangle
+
+
+
 def trigon(a,b,c):
     if a == 0 or b == 0 or c == 0:
         return 'odcinek misi być większy od 0'
