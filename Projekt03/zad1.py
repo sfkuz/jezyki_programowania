@@ -1,4 +1,5 @@
 import random
+import unittest
 
 # ZADANIE 1
 rows = 8
@@ -57,6 +58,16 @@ def atak(p_position, k_position):
             kto_bije.append(h)
     return kto_bije
 
+class TestAtak(unittest.TestCase):
+    def test_atak_po_ziomie(self):
+        self.assertEqual(len(atak([(4, 4)], [(4, 0)])), 1)
+    def test_atak_po_pionie(self):
+        self.assertEqual(len(atak([(4, 4)], [(0, 4)])), 1)
+    def test_atak_po_diagonali(self):
+        self.assertEqual(len(atak([(4, 4)], [(6, 6)])), 1)
+    def test_brak_ataku(self):
+        self.assertEqual(len(atak([(4, 4)], [(0, 1)])), 0)
+
 wynik = atak(p_position, k_position)
 
 if wynik:
@@ -71,6 +82,7 @@ while True:
     print('1. losuj nową pozycje pionka')
     print('2. usuń hetmana')
     print('3. Wyjdź')
+    print('4. uruchom testy')
 
     wybor = input('podaj wybór: ')
 
@@ -95,6 +107,9 @@ while True:
                 print('Liczba musi być od 0 do 7. Spróbuj ponownie.')
     elif wybor == '3':
         break
+    elif wybor == '4':
+        print("\n--- URUCHAMIANIE TESTÓW ---")
+        unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(TestAtak))
 
     wyswietlenie_planszy(plansza)
     wynik = atak(p_position, k_position)
