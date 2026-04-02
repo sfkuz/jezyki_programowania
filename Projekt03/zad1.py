@@ -4,7 +4,12 @@ import random
 rows = 8
 cols = 8
 p = 1 #pionek
-k = int(input('podaj liczbę hetmanów(maksymalnie 5): ')) #hetmany
+k = 0 #hetmany
+while True:
+    k = int(input('podaj liczbę hetmanów (maksymalnie 5): '))
+    if 0 < k <= 5:
+        break
+    print('Maksymalna liczba hetmanów to 5, spróbuj ponownie.')
 k_liczba = 0 #liczba hetmanów
 p_liczba = False #liczba pionka
 p_position = [] #pozycje hetmanów
@@ -36,3 +41,18 @@ while not p_liczba:
 for row in plansza:
     print(" ".join(row))
 
+
+# ZADANIE 2
+kto_bije = []
+pr, pc = p_position[0] # pozycja pionka w linijce i kolumnie
+
+for h in k_position:
+    hr = h[0] # pozycja hetmana w linijce
+    hc = h[1] # pozycja hetmana w kolumnie
+    if (hr == pr) or (hc == pc) or (abs(hr - pr) == abs(hc - pc)): # abs żeby liczba nie była ujemna
+        kto_bije.append(h)
+
+if len(kto_bije) > 0:
+    print(f'hetmany którzy zabiją pionek: {kto_bije}')
+else:
+    print('żaden hetman nie zabije pionek')
