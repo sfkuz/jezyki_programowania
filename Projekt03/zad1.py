@@ -14,45 +14,92 @@ k_liczba = 0 #liczba hetmanów
 p_liczba = False #liczba pionka
 p_position = [] #pozycje hetmanów
 k_position = [] #pozycja pionka
-if k > 5:
-    print('maksymalna liczba hetmanów 5, podaj mniejszą liczbę.')
 
 plansza = [['.' for j in range(cols)] for i in range(rows)]
 
-while k_liczba < k:
-    r = random.randint(0, 7)
-    c = random.randint(0, 7)
+def losowanie_hetmanow(plansza, k_position, k):
+    while len(k_position) < k:
+        r = random.randint(0, 7)
+        c = random.randint(0, 7)
+        if plansza[r][c] == '.':
+            plansza[r][c] = 'H'
+            k_position.append((r, c))
 
-    if plansza[r][c] == '.':
-        plansza[r][c] = 'H'
-        k_liczba += 1
-        k_position.append((r, c))
+losowanie_hetmanow(plansza, k_position, k)
 
-while not p_liczba:
-    rp = random.randint(0, 7)
-    cp = random.randint(0, 7)
+def losowanie_pionka(plansza, p_position):
+    while True:
+        rp = random.randint(0, 7)
+        cp = random.randint(0, 7)
+        if plansza[rp][cp] == '.':
+            plansza[rp][cp] = 'P'
+            p_position.append((rp, cp))
+            break
 
-    if plansza[rp][cp] == '.':
-        plansza[rp][cp] = 'P'
-        p_liczba = True
-        p_position.append((rp, cp))
+losowanie_pionka(plansza,p_position)
 
+def wyswietlenie_planszy(plansza):
+    for row in plansza:
+        print(" ".join(row))
 
-for row in plansza:
-    print(" ".join(row))
+wyswietlenie_planszy(plansza)
 
 
 # ZADANIE 2
-kto_bije = []
-pr, pc = p_position[0] # pozycja pionka w linijce i kolumnie
 
-for h in k_position:
-    hr = h[0] # pozycja hetmana w linijce
-    hc = h[1] # pozycja hetmana w kolumnie
-    if (hr == pr) or (hc == pc) or (abs(hr - pr) == abs(hc - pc)): # abs żeby liczba nie była ujemna
-        kto_bije.append(h)
+def atak(p_position, k_position):
+    kto_bije = []
+    pr, pc = p_position[0]  # pozycja pionka w linijce i kolumnie
 
-if len(kto_bije) > 0:
-    print(f'hetmany którzy zabiją pionek: {kto_bije}')
+    for h in k_position:
+        hr, hc = h  # pozycja hetmana w linijce i kolumnie
+        if (hr == pr) or (hc == pc) or (abs(hr - pr) == abs(hc - pc)):  # abs żeby liczba nie była ujemna
+            kto_bije.append(h)
+    return kto_bije
+
+wynik = atak(p_position, k_position)
+
+if wynik:
+    print(f'hetmany którzy zabiją pionek: {wynik}')
 else:
     print('żaden hetman nie zabije pionek')
+
+# ZADANIE 3
+
+while True:
+    print('\n===Co chcesz zrobić?===')
+    print('1. losuj nową pozycje pionka')
+    print('2. usuń hetmana')
+    print('3. Wyjdź')
+
+    wybor = input('podaj wybór: ')
+
+    if wybor == '1':
+        old_r, old_c = p_position[0]
+        plansza[old_r][old_c] = '.'
+        p_position.clear()
+        losowanie_pionka(plansza, p_position)
+    elif wybor == '2':
+        while True:
+            r_del = int(input('linijka do usunięcia(0-7): '))
+            c_del = int(input('kolumna do usunięcia(0-7): '))
+            if r_del < 8 and c_del < 8:
+                if (r_del, c_del) in k_position:
+                    plansza[r_del][c_del] = '.'
+                    k_position.remove((r_del, c_del))
+                    print('Hetman został usunięty.')
+                    break
+                else:
+                    print('Na tej pozycji nie ma hetmana! Spróbuj ponownie.')
+            else:
+                print('Liczba musi być od 0 do 7. Spróbuj ponownie.')
+    elif wybor == '3':
+        break
+
+    wyswietlenie_planszy(plansza)
+    wynik = atak(p_position, k_position)
+
+    if wynik:
+        print(f'hetmany którzy zabiją pionek: {wynik}')
+    else:
+        print('żaden hetman nie zabije pionek')
