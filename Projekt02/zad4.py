@@ -1,4 +1,4 @@
-def dates(date1, date2):
+def dates_sort(date1, date2):
     if date1["year"] < date2["year"]:
         return True
     elif date1["year"] > date2["year"]:
@@ -19,7 +19,7 @@ def sort(dates):
     for i in range(n):
         swapped = False
         for j in range(0, n - i - 1):
-            if not dates(dates[j], dates[j+1]):
+            if not dates_sort(dates[j], dates[j+1]):
                 dates[j], dates[j+1] = dates[j+1], dates[j]
                 swapped = True
         if not swapped:
