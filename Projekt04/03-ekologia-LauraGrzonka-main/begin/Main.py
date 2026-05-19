@@ -5,6 +5,7 @@ from Organisms.Sheep import Sheep
 import os
 import importlib
 
+# ZADANIE 4
 if __name__ == '__main__':
     pyWorld = World(10, 10)
 
@@ -14,7 +15,7 @@ if __name__ == '__main__':
 
     print(pyWorld)
 
-    while True:
+    while pyWorld.turn < 50:
         cmd_input = input(
             '\n[Enter] = Nastepna tura | "plague" = Plaga | "add [Nazwa] [x] [y]" = Dodaj | "q" = Wyjdz:\n').strip().split()
 

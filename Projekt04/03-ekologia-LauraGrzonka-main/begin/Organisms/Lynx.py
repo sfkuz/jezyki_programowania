@@ -1,3 +1,4 @@
+# ZADANIE 1
 from .Animal import Animal
 
 class Lynx(Animal):

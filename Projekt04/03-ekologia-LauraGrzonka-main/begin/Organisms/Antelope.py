@@ -1,3 +1,4 @@
+# ZADANIE 2
 from .Animal import Animal
 from Action import Action
 from ActionEnum import ActionEnum

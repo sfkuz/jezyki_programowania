@@ -13,6 +13,7 @@ class World(object):
 		self.__organisms = []
 		self.__newOrganisms = []
 		self.__separator = '.'
+		# ZADANIE 3
 		self.plagueTurns = 0
 
 	@property
@@ -78,7 +79,7 @@ class World(object):
 		self.organisms.extend(self.newOrganisms)
 		self.organisms.sort(key=lambda o: o.initiative, reverse=True)
 		self.newOrganisms = []
-
+		# ZADANIE 3
 		if self.plagueTurns > 0:
 			self.plagueTurns -= 1
 
@@ -160,13 +161,25 @@ class World(object):
 				else:
 					result += self.separator
 			result += '\n'
+
+			# ZADANIE
+		result += '\n--- STATISTICS OF ORGANISMS ---\n'
+		sorted_orgs = sorted(self.organisms, key=lambda o: o.__class__.__name__)
+
+		if not sorted_orgs:
+			result += "all are died\n"
+		else:
+			for org in sorted_orgs:
+				result += f"{org.__class__.__name__} on {org.position} | Power: {org.power} | Time to live: {org.liveLength}\n"
 		return result
 
+	# ZADANIE 3
 	def startPlague(self):
 		self.plagueTurns = 2
 		for org in self.organisms:
 			org.liveLength = max(1, org.liveLength // 2)
 
+	# ZADANIE 4
 	def addOrganismAtFreePosition(self, newOrganism):
 		pos = newOrganism.position
 		if self.positionOnBoard(pos) and self.getOrganismFromPosition(pos) is None:
